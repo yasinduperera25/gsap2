@@ -2,6 +2,7 @@ import * as advanced from './advanced'
 import * as beginner from './beginner'
 import * as intermediate from './intermediate'
 import * as showcase from './showcase'
+import * as showcaseExtra from './showcase-extra'
 import type { SceneBuilder } from './helpers'
 
 const sceneBuilders: Record<string, SceneBuilder> = {
@@ -43,6 +44,18 @@ const sceneBuilders: Record<string, SceneBuilder> = {
   'image-tilt': showcase.imageTilt,
   'image-gallery': showcase.imageGallery,
   'image-kenburns': showcase.imageKenBurns,
+  'scroll-progress': showcaseExtra.scrollProgress,
+  'scroll-velocity': showcaseExtra.scrollVelocity,
+  'scroll-parallax-gallery': showcaseExtra.scrollParallaxGallery,
+  'text-scramble': showcaseExtra.textScramble,
+  'text-lines': showcaseExtra.textLineReveal,
+  'text-gradient': showcaseExtra.textGradientSweep,
+  'page-transition-slide': showcaseExtra.pageTransitionSlide,
+  'page-transition-zoom': showcaseExtra.pageTransitionZoom,
+  'carousel-coverflow': showcaseExtra.carouselCoverflow,
+  'carousel-vertical': showcaseExtra.carouselVertical,
+  'image-hover-follow': showcaseExtra.imageHoverFollow,
+  'image-compare': showcaseExtra.imageCompare,
 }
 
 export function getSceneBuilder(id: string): SceneBuilder {

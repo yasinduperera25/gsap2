@@ -1064,6 +1064,387 @@ gsap.to(cards, {
   }
 );`,
   },
+  {
+    id: 'scroll-progress',
+    order: 39,
+    title: 'Scroll Progress Timeline',
+    summary: 'Drive a progress bar, counter and cards from one scrubbed timeline.',
+    explanation:
+      'A single ScrollTrigger timeline can own multiple properties. Scrub maps its playhead to scroll distance, so the bar, number and cards stay perfectly in sync.',
+    tip: 'Use snap on the counter object so the displayed value stays a clean integer.',
+    level: 'intermediate',
+    categories: ['ScrollTrigger', 'Timeline'],
+    scene: 'scroll-progress',
+    accent: '#22d3ee',
+    interaction: 'scroll',
+    code: `const counter = { value: 0 };
+const tl = gsap.timeline({
+  scrollTrigger: {
+    trigger: ".progress-scene",
+    start: "top top",
+    end: "bottom bottom",
+    scrub: 0.6
+  }
+});
+
+tl.to(".progress-bar", { scaleX: 1, ease: "none" }, 0)
+  .to(counter, {
+    value: 100,
+    ease: "none",
+    snap: { value: 1 },
+    onUpdate: () => {
+      number.textContent = String(Math.round(counter.value)).padStart(2, "0");
+    }
+  }, 0)
+  .from(".progress-card", {
+    y: 44,
+    opacity: 0,
+    stagger: 0.4
+  }, 0.2);`,
+  },
+  {
+    id: 'scroll-velocity',
+    order: 40,
+    title: 'Scroll Velocity Skew',
+    summary: 'Bend rows based on how fast the visitor is scrolling.',
+    explanation:
+      'ScrollTrigger.getVelocity() reports scroll speed. Feed it through quickTo setters to skew rows, then ease back to zero when scrolling stops.',
+    tip: 'Clamp velocity before applying it so fast flicks never break the layout.',
+    level: 'advanced',
+    categories: ['ScrollTrigger', 'Advanced'],
+    scene: 'scroll-velocity',
+    accent: '#8b5cf6',
+    interaction: 'scroll',
+    code: `const clamp = gsap.utils.clamp(-12, 12);
+const setters = rows.map((row) =>
+  gsap.quickTo(row, "skewY", { duration: 0.35 })
+);
+
+ScrollTrigger.create({
+  trigger: ".velocity-scene",
+  start: "top top",
+  end: "bottom bottom",
+  onUpdate: (self) => {
+    const velocity = clamp(self.getVelocity() / -260);
+    setters.forEach((setter) => setter(velocity));
+
+    gsap.to({}, {
+      duration: 0.18,
+      onComplete: () => setters.forEach((setter) => setter(0))
+    });
+  }
+});`,
+  },
+  {
+    id: 'scroll-parallax-gallery',
+    order: 41,
+    title: 'Parallax Image Columns',
+    summary: 'Move gallery columns at different rates while the page scrolls.',
+    explanation:
+      'Each column reads its own speed multiplier and gets a scrubbed fromTo tween. Different rates create depth without any 3D transforms.',
+    tip: 'Use a shared trigger for all columns so the parallax stays aligned.',
+    level: 'intermediate',
+    categories: ['ScrollTrigger', 'Image'],
+    scene: 'scroll-parallax-gallery',
+    accent: '#c6ff4a',
+    interaction: 'scroll',
+    code: `const columns = gsap.utils.toArray(".parallax-column");
+
+columns.forEach((column) => {
+  const speed = Number(column.dataset.speed);
+
+  gsap.fromTo(column,
+    { y: 40 * speed },
+    {
+      y: -70 * speed,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".parallax-scene",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1
+      }
+    }
+  );
+});`,
+  },
+  {
+    id: 'text-scramble',
+    order: 42,
+    title: 'Text Scramble Decode',
+    summary: 'Resolve random glyphs into a final message.',
+    explanation:
+      'A progress value controls how many characters are locked in. Unrevealed characters are replaced with random glyphs on every update.',
+    tip: 'Keep spaces intact so the decoded line never jumps between layouts.',
+    level: 'intermediate',
+    categories: ['Text'],
+    scene: 'text-scramble',
+    accent: '#f472b6',
+    code: `const state = { progress: 0 };
+const glyphs = "!<>-_\\\\/[]{}—=+*^?#";
+
+const tl = gsap.timeline({
+  repeat: -1,
+  repeatDelay: 1.3,
+  onRepeat: () => { state.progress = 0; }
+});
+
+tl.to(state, {
+  progress: 1,
+  duration: 2.2,
+  ease: "none",
+  onUpdate: () => {
+    const revealed = Math.floor(state.progress * text.length);
+    text.textContent = [...text].map((char, index) => {
+      if (index < revealed || char === " ") return char;
+      return glyphs[Math.floor(Math.random() * glyphs.length)];
+    }).join("");
+  }
+});`,
+  },
+  {
+    id: 'text-line-reveal',
+    order: 43,
+    title: 'Masked Line Reveal',
+    summary: 'Let SplitText lines rise from behind overflow-hidden masks.',
+    explanation:
+      'SplitText measures real line boxes. Animating yPercent on each line with an overflow-hidden mask produces a clean editorial reveal at any width.',
+    tip: 'Revert the split when the scene is destroyed so the original text is restored.',
+    level: 'intermediate',
+    categories: ['Text', 'Stagger'],
+    scene: 'text-lines',
+    accent: '#34d399',
+    code: `const split = new SplitText(".line-heading", {
+  type: "lines",
+  linesClass: "split-line"
+});
+
+const tl = gsap.timeline();
+
+tl.from(split.lines, {
+  yPercent: 120,
+  opacity: 0,
+  duration: 0.9,
+  stagger: 0.1,
+  ease: "power4.out"
+})
+.from(".line-sub", {
+  y: 16,
+  opacity: 0,
+  duration: 0.6
+}, "-=0.35");`,
+  },
+  {
+    id: 'text-gradient-sweep',
+    order: 44,
+    title: 'Gradient Sweep Text',
+    summary: 'Slide a multi-stop gradient across clipped text.',
+    explanation:
+      'Set the gradient larger than the text, clip it to the glyphs, then animate background-position. The yoyo loop creates a continuous color sweep.',
+    tip: 'Use backgroundSize: "200% 100%" so there is room for the gradient to travel.',
+    level: 'beginner',
+    categories: ['Text', 'Easing'],
+    scene: 'text-gradient',
+    accent: '#fbbf24',
+    code: `const tl = gsap.timeline({
+  repeat: -1,
+  yoyo: true,
+  defaults: { ease: "sine.inOut" }
+});
+
+tl.fromTo(".gradient-text",
+  { backgroundPosition: "0% 50%" },
+  { backgroundPosition: "200% 50%", duration: 2.4 }
+);`,
+  },
+  {
+    id: 'page-transition-slide',
+    order: 45,
+    title: 'Slide Push Transition',
+    summary: 'Push one page out as the next page slides in from the side.',
+    explanation:
+      'A full-width flex track shifts by one panel per step. Because each panel is 100% wide, xPercent -100 moves exactly one page.',
+    tip: 'Keep the track width equal to one panel and use xPercent for resolution-independent steps.',
+    level: 'advanced',
+    categories: ['Transition', 'Timeline'],
+    scene: 'page-transition-slide',
+    accent: '#22d3ee',
+    code: `const track = document.querySelector(".slide-track");
+const panels = gsap.utils.toArray(".slide-panel");
+const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.5 });
+
+for (let i = 1; i < panels.length; i++) {
+  tl.to(track, {
+    xPercent: -100 * i,
+    duration: 0.75,
+    ease: "power3.inOut"
+  });
+}
+
+tl.to({}, { duration: 1 })
+  .to(track, {
+    xPercent: 0,
+    duration: 0.75,
+    ease: "power3.inOut"
+  });`,
+  },
+  {
+    id: 'page-transition-zoom',
+    order: 46,
+    title: 'Zoom Blur Transition',
+    summary: 'Swap stacked pages with a scale, blur and opacity hand-off.',
+    explanation:
+      'Stack both pages in the same frame, then cross-fade them while scaling and blurring in opposite directions. The result reads as a camera move.',
+    tip: 'Animate filter blur sparingly and keep durations matched to avoid a muddy midpoint.',
+    level: 'advanced',
+    categories: ['Transition'],
+    scene: 'page-transition-zoom',
+    accent: '#8b5cf6',
+    code: `const tl = gsap.timeline({
+  repeat: -1,
+  repeatDelay: 0.6,
+  defaults: { ease: "power3.inOut" }
+});
+
+tl.to(".page-a", {
+  opacity: 0,
+  scale: 0.86,
+  filter: "blur(14px)",
+  duration: 0.7
+})
+.to(".page-b", {
+  opacity: 1,
+  scale: 1,
+  filter: "blur(0px)",
+  duration: 0.7
+}, "<");`,
+  },
+  {
+    id: 'carousel-coverflow',
+    order: 47,
+    title: '3D Coverflow Carousel',
+    summary: 'Arrange cards in depth and rotate them like a coverflow gallery.',
+    explanation:
+      'Wrap offset maps each card to a signed distance from the active index. That distance drives x, scale, rotationY, opacity and zIndex.',
+    tip: 'Reduce opacity beyond two steps so the back cards fade instead of cluttering the frame.',
+    level: 'advanced',
+    categories: ['Carousel', 'Advanced'],
+    scene: 'carousel-coverflow',
+    accent: '#f472b6',
+    code: `const total = cards.length;
+let active = 0;
+
+function layout(duration) {
+  cards.forEach((card, index) => {
+    let offset = (index - active + total) % total;
+    if (offset > total / 2) offset -= total;
+
+    const distance = Math.abs(offset);
+
+    gsap.to(card, {
+      x: offset * 86,
+      scale: 1 - distance * 0.14,
+      rotationY: offset * -22,
+      opacity: distance > 2 ? 0 : 1,
+      zIndex: total - distance,
+      duration,
+      ease: "power3.inOut"
+    });
+  });
+}`,
+  },
+  {
+    id: 'carousel-vertical',
+    order: 48,
+    title: 'Vertical Carousel',
+    summary: 'Move a carousel vertically and sync a slim dot rail.',
+    explanation:
+      'A vertical track translates by the window height for each step. Dot indicators update from tween onStart callbacks and reset on restart.',
+    tip: 'Read the window height at animation time so resizes and zoom levels are respected.',
+    level: 'intermediate',
+    categories: ['Carousel', 'Timeline'],
+    scene: 'carousel-vertical',
+    accent: '#34d399',
+    code: `const windowEl = document.querySelector(".vertical-window");
+const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.6 });
+
+for (let i = 1; i < slides.length; i++) {
+  tl.to(track, {
+    y: () => -i * windowEl.clientHeight,
+    duration: 0.7,
+    ease: "power3.inOut",
+    onStart: () => setActive(i)
+  });
+}
+
+tl.to({}, { duration: 1 })
+  .to(track, {
+    y: 0,
+    duration: 0.7,
+    ease: "power3.inOut",
+    onStart: () => setActive(0)
+  });`,
+  },
+  {
+    id: 'image-hover-follow',
+    order: 49,
+    title: 'Cursor-Follow Image Preview',
+    summary: 'Reveal a floating image preview that tracks the pointer.',
+    explanation:
+      'quickTo setters keep the preview glued to the cursor without creating a new tween on every mousemove. Hover handlers swap the preview gradient per row.',
+    tip: 'Use pointer-events-none on the preview so it never steals hover from the list.',
+    level: 'intermediate',
+    categories: ['Image', 'Interaction'],
+    scene: 'image-hover-follow',
+    accent: '#60a5fa',
+    interaction: 'hover',
+    code: `const preview = document.querySelector(".hover-preview");
+const xTo = gsap.quickTo(preview, "x", { duration: 0.5 });
+const yTo = gsap.quickTo(preview, "y", { duration: 0.5 });
+
+root.addEventListener("mousemove", (event) => {
+  const rect = root.getBoundingClientRect();
+  xTo(event.clientX - rect.left);
+  yTo(event.clientY - rect.top);
+});
+
+items.forEach((item) => {
+  item.addEventListener("mouseenter", () => {
+    preview.style.background = item.dataset.gradient;
+    gsap.to(preview, { opacity: 1, scale: 1 });
+  });
+});`,
+  },
+  {
+    id: 'image-compare',
+    order: 50,
+    title: 'Draggable Before / After',
+    summary: 'Compare two images with a draggable clip-path divider.',
+    explanation:
+      'Draggable moves a vertical handle while a clip-path on the top layer follows its x value. Bounds keep the divider inside the frame.',
+    tip: 'Derive the clip percentage from the measured frame width, not a hardcoded pixel value.',
+    level: 'advanced',
+    categories: ['Image', 'Draggable', 'Interaction'],
+    scene: 'image-compare',
+    accent: '#f97316',
+    interaction: 'drag',
+    code: `const width = frame.clientWidth;
+
+function update() {
+  const x = gsap.getProperty(handle, "x");
+  const percent = gsap.utils.clamp(0, 100, (x / width) * 100);
+  topLayer.style.clipPath = \`inset(0 \${100 - percent}% 0 0)\`;
+}
+
+gsap.set(handle, { x: width * 0.5 });
+
+Draggable.create(handle, {
+  type: "x",
+  bounds: { minX: 0, maxX: width },
+  onDrag: update,
+  onThrowUpdate: update
+});`,
+  },
 ]
 
 export const exampleById = new Map(examples.map((example) => [example.id, example]))

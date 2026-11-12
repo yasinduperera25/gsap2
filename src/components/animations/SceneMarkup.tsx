@@ -1219,6 +1219,635 @@ function ImageKenBurnsScene() {
   )
 }
 
+function ScrollProgressScene() {
+  return (
+    <div className="w-full px-6 pb-20 pt-8">
+      <div className="mx-auto max-w-sm">
+        <div className="sticky top-0 z-20 -mx-2 rounded-b-2xl bg-ink-950/85 px-2 pb-3 pt-2 backdrop-blur">
+          <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-ink-500">
+            <span>scroll progress</span>
+            <span data-scroll-progress-number className="font-mono text-cyan">
+              00
+            </span>
+          </div>
+          <div className="h-1 overflow-hidden rounded-full bg-white/8">
+            <div
+              data-scroll-progress-bar
+              className="h-full w-full origin-left scale-x-0 rounded-full bg-gradient-to-r from-accent via-cyan to-violet"
+            />
+          </div>
+        </div>
+        <div className="mt-8 text-center">
+          <div className="mb-3 text-[10px] uppercase tracking-[0.28em] text-cyan">
+            scrubbed timeline
+          </div>
+          <h4 className="font-display text-2xl font-semibold text-ink-50">
+            Progress you can feel
+          </h4>
+          <p className="mt-3 text-xs leading-relaxed text-ink-400">
+            One timeline drives the bar, the counter and each card as you
+            scroll.
+          </p>
+        </div>
+        <div className="mt-8 space-y-4">
+          {[
+            'Bar tracks scroll',
+            'Counter snaps clean',
+            'Cards reveal in order',
+            'Loop resets at the top',
+          ].map((label, index) => (
+            <div
+              key={label}
+              data-scroll-progress-card
+              className="rounded-2xl border border-white/8 bg-gradient-to-br from-ink-750 to-ink-900 p-4"
+            >
+              <div className="mb-4 flex items-center justify-between">
+                <span className="font-mono text-[10px] text-cyan">
+                  0{index + 1}
+                </span>
+                <span className="h-1.5 w-1.5 rounded-full bg-cyan/70" />
+              </div>
+              <div className="font-display text-sm font-semibold text-ink-100">
+                {label}
+              </div>
+              <div className="mt-2 h-1 w-2/3 rounded-full bg-white/10" />
+            </div>
+          ))}
+        </div>
+        <div className="h-[380px]" />
+      </div>
+    </div>
+  )
+}
+
+function ScrollVelocityScene() {
+  return (
+    <div className="w-full px-6 pb-24 pt-8">
+      <div className="mx-auto max-w-sm">
+        <div className="mb-10 text-center">
+          <div className="mb-3 text-[10px] uppercase tracking-[0.28em] text-violet">
+            velocity skew
+          </div>
+          <h4 className="font-display text-2xl font-semibold text-ink-50">
+            Scroll sets the angle
+          </h4>
+          <p className="mt-3 text-xs leading-relaxed text-ink-400">
+            Each row skews from ScrollTrigger.getVelocity() and settles back to
+            zero.
+          </p>
+        </div>
+        <div className="space-y-4">
+          {['Velocity', 'Momentum', 'Inertia', 'Skew', 'Settle', 'Return'].map(
+            (label, index) => (
+              <div
+                key={label}
+                data-velocity-row
+                className="flex items-center justify-between rounded-2xl border border-white/8 bg-gradient-to-r from-ink-750 to-ink-900 p-4"
+              >
+                <span className="font-mono text-[10px] text-violet">
+                  0{index + 1}
+                </span>
+                <span className="font-display text-xl font-semibold text-ink-50">
+                  {label}
+                </span>
+                <span className="h-8 w-8 rounded-lg border border-violet/20 bg-violet/10" />
+              </div>
+            ),
+          )}
+        </div>
+        <div className="h-[440px]" />
+      </div>
+    </div>
+  )
+}
+
+const parallaxColumns = [
+  {
+    speed: '0.5',
+    items: [
+      { label: 'Aurora', color: '#c6ff4a' },
+      { label: 'Tide', color: '#22d3ee' },
+    ],
+  },
+  {
+    speed: '1',
+    items: [
+      { label: 'Dusk', color: '#8b5cf6' },
+      { label: 'Ember', color: '#f472b6' },
+      { label: 'Glow', color: '#fbbf24' },
+    ],
+  },
+  {
+    speed: '1.4',
+    items: [
+      { label: 'Flux', color: '#34d399' },
+      { label: 'Pulse', color: '#60a5fa' },
+    ],
+  },
+]
+
+function ScrollParallaxGalleryScene() {
+  return (
+    <div className="w-full px-6 pb-24 pt-8">
+      <div className="mx-auto max-w-sm">
+        <div className="mb-10 text-center">
+          <div className="mb-3 text-[10px] uppercase tracking-[0.28em] text-accent">
+            scroll parallax
+          </div>
+          <h4 className="font-display text-2xl font-semibold text-ink-50">
+            Columns at different speeds
+          </h4>
+          <p className="mt-3 text-xs leading-relaxed text-ink-400">
+            Each column has its own scrub multiplier, creating depth as the
+            preview scrolls.
+          </p>
+        </div>
+        <div className="grid grid-cols-3 gap-2">
+          {parallaxColumns.map((column, columnIndex) => (
+            <div
+              key={columnIndex}
+              data-scroll-column
+              data-speed={column.speed}
+              className="space-y-2"
+            >
+              {column.items.map((item) => (
+                <div
+                  key={item.label}
+                  className="flex aspect-[3/4] flex-col justify-end rounded-xl border p-2"
+                  style={{
+                    borderColor: `${item.color}33`,
+                    background: `linear-gradient(160deg, ${item.color}22, #0c111f)`,
+                  }}
+                >
+                  <span
+                    className="text-[9px] uppercase tracking-[0.16em]"
+                    style={{ color: item.color }}
+                  >
+                    {item.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+        <div className="h-[520px]" />
+      </div>
+    </div>
+  )
+}
+
+function TextScrambleScene() {
+  return (
+    <div className="scene-shell">
+      <div className="w-full max-w-xl text-center">
+        <div className="mb-4 flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.28em] text-pink">
+          <span className="h-px w-6 bg-pink/50" />
+          decode
+          <span className="h-px w-6 bg-pink/50" />
+        </div>
+        <h3
+          data-scramble-text
+          className="font-display text-3xl font-semibold leading-tight text-ink-50 sm:text-4xl"
+        >
+          SIGNAL ACQUIRED
+        </h3>
+        <p
+          data-scramble-sub
+          className="mx-auto mt-5 max-w-sm text-xs leading-relaxed text-ink-400 sm:text-sm"
+        >
+          Random glyphs resolve into the final message while the timeline
+          repeats.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function TextLineRevealScene() {
+  return (
+    <div className="scene-shell">
+      <div className="w-full max-w-xl">
+        <div className="mb-4 flex items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-accent">
+          <span className="h-px w-6 bg-accent/50" />
+          masked lines
+        </div>
+        <div className="overflow-hidden">
+          <h3
+            data-lines-text
+            className="font-display text-4xl font-semibold leading-[1.05] text-ink-50 sm:text-5xl"
+          >
+            Motion gives
+            <br />
+            words a pulse.
+          </h3>
+        </div>
+        <p
+          data-lines-sub
+          className="mt-5 max-w-sm text-xs leading-relaxed text-ink-400 sm:text-sm"
+        >
+          SplitText measures each line, then overflow-hidden masks let them rise
+          from below.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function TextGradientSweepScene() {
+  return (
+    <div className="scene-shell">
+      <div className="w-full max-w-xl text-center">
+        <div className="mb-4 flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.28em] text-yellow-300">
+          <Sparkles size={11} />
+          gradient sweep
+        </div>
+        <h3
+          data-gradient-text
+          className="bg-clip-text font-display text-4xl font-semibold leading-[0.95] text-transparent sm:text-5xl"
+          style={{
+            backgroundImage:
+              'linear-gradient(100deg, #eaffb0, #c6ff4a, #22d3ee, #8b5cf6, #f472b6, #c6ff4a)',
+            backgroundSize: '200% 100%',
+            backgroundPosition: '0% 50%',
+          }}
+        >
+          Color in motion.
+        </h3>
+        <p className="mx-auto mt-5 max-w-sm text-xs leading-relaxed text-ink-400 sm:text-sm">
+          Animating background-position is all it takes to sweep a gradient
+          across the glyphs.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+const slidePages = [
+  { label: '/home', title: 'Home', accent: '#c6ff4a' },
+  { label: '/work', title: 'Work', accent: '#22d3ee' },
+  { label: '/contact', title: 'Contact', accent: '#8b5cf6' },
+]
+
+function PageTransitionSlideScene() {
+  return (
+    <div className="scene-shell">
+      <div className="w-full max-w-md">
+        <div className="overflow-hidden rounded-3xl border border-white/10 bg-ink-900">
+          <div data-pt-slide-track className="flex w-full">
+            {slidePages.map((page) => (
+              <div
+                key={page.label}
+                data-pt-slide-panel
+                className="relative flex h-[210px] w-full shrink-0 flex-col justify-between p-5"
+                style={{
+                  background: `radial-gradient(circle at 82% 12%, ${page.accent}26, transparent 42%), #0b1120`,
+                }}
+              >
+                <div className="flex items-center justify-between">
+                  <span
+                    className="font-mono text-[10px] uppercase tracking-[0.2em]"
+                    style={{ color: page.accent }}
+                  >
+                    {page.label}
+                  </span>
+                  <span
+                    className="h-1.5 w-1.5 rounded-full"
+                    style={{ backgroundColor: page.accent }}
+                  />
+                </div>
+                <div>
+                  <div className="font-display text-3xl font-semibold text-ink-50">
+                    {page.title}
+                  </div>
+                  <div className="mt-3 space-y-1.5">
+                    <div className="h-1.5 w-2/3 rounded-full bg-white/10" />
+                    <div className="h-1.5 w-1/2 rounded-full bg-white/8" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="mt-4 flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-ink-500">
+          <span>slide push</span>
+          <span className="flex items-center gap-1.5 text-cyan">
+            <ChevronRight size={11} /> xPercent track
+          </span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const zoomPages = [
+  { title: 'Discovery', accent: '#22d3ee', kicker: '/discovery' },
+  { title: 'Delivery', accent: '#8b5cf6', kicker: '/delivery' },
+]
+
+function PageTransitionZoomScene() {
+  return (
+    <div className="scene-shell">
+      <div className="w-full max-w-md">
+        <div className="relative h-[210px] overflow-hidden rounded-3xl border border-white/10 bg-ink-900">
+          {zoomPages.map((page, index) => (
+            <div
+              key={page.title}
+              data-pt-zoom-page
+              className="absolute inset-0 flex flex-col justify-between p-5"
+              style={{
+                zIndex: index === 0 ? 10 : 9,
+                background: `radial-gradient(circle at 18% 14%, ${page.accent}26, transparent 44%), #0b1120`,
+                opacity: index === 0 ? 1 : 0,
+                transform: index === 0 ? undefined : 'scale(1.12)',
+                filter: index === 0 ? 'blur(0px)' : 'blur(14px)',
+              }}
+            >
+              <div className="flex items-center justify-between">
+                <span
+                  className="font-mono text-[10px] uppercase tracking-[0.2em]"
+                  style={{ color: page.accent }}
+                >
+                  {page.kicker}
+                </span>
+                <span
+                  className="h-1.5 w-1.5 rounded-full"
+                  style={{ backgroundColor: page.accent }}
+                />
+              </div>
+              <div>
+                <div className="font-display text-3xl font-semibold text-ink-50">
+                  {page.title}
+                </div>
+                <div className="mt-2 text-[10px] uppercase tracking-[0.22em] text-ink-500">
+                  scale · blur · fade
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-4 flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-ink-500">
+          <span>zoom blur</span>
+          <span className="flex items-center gap-1.5 text-violet">
+            <ChevronLeft size={11} /> stacked pages
+          </span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const coverflowItems = [
+  { title: 'One', color: '#c6ff4a' },
+  { title: 'Two', color: '#22d3ee' },
+  { title: 'Three', color: '#8b5cf6' },
+  { title: 'Four', color: '#f472b6' },
+  { title: 'Five', color: '#fbbf24' },
+]
+
+function CarouselCoverflowScene() {
+  return (
+    <div className="scene-shell">
+      <div className="w-full max-w-md">
+        <div className="relative h-[200px]" style={{ perspective: 1000 }}>
+          {coverflowItems.map((item, index) => (
+            <div
+              key={item.title}
+              data-coverflow-card
+              className="absolute left-1/2 top-1/2 flex h-[180px] w-[128px] flex-col justify-between rounded-2xl border border-white/10 p-3"
+              style={{
+                marginLeft: -64,
+                marginTop: -90,
+                zIndex: coverflowItems.length - index,
+                background: `linear-gradient(160deg, ${item.color}22, #0c111f)`,
+              }}
+            >
+              <span className="font-mono text-[10px]" style={{ color: item.color }}>
+                0{index + 1}
+              </span>
+              <div>
+                <div className="font-display text-lg font-semibold text-ink-50">
+                  {item.title}
+                </div>
+                <div
+                  className="mt-2 h-1 w-10 rounded-full"
+                  style={{ backgroundColor: item.color }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-3 flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            {coverflowItems.map((item, index) => (
+              <span
+                key={item.title}
+                data-coverflow-dot
+                className="h-2 rounded-full bg-white/40 transition-all duration-300"
+                style={{
+                  width: index === 0 ? 20 : 8,
+                  opacity: index === 0 ? 1 : 0.35,
+                }}
+              />
+            ))}
+          </div>
+          <span className="text-[10px] uppercase tracking-[0.18em] text-ink-500">
+            coverflow · rotationY
+          </span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const verticalItems = [
+  { title: 'Intro', color: '#c6ff4a', copy: 'A vertical track moves one panel at a time.' },
+  { title: 'Detail', color: '#22d3ee', copy: 'TranslateY is measured from the window height.' },
+  { title: 'Close', color: '#8b5cf6', copy: 'The timeline returns to the first slide.' },
+]
+
+function CarouselVerticalScene() {
+  return (
+    <div className="scene-shell">
+      <div className="w-full max-w-md">
+        <div className="flex gap-3">
+          <div
+            data-vertical-window
+            className="relative h-[210px] flex-1 overflow-hidden rounded-3xl border border-white/10 bg-ink-900"
+          >
+            <div data-vertical-track className="flex flex-col">
+              {verticalItems.map((item) => (
+                <div
+                  key={item.title}
+                  data-vertical-slide
+                  className="flex h-[210px] w-full shrink-0 flex-col justify-between p-5"
+                  style={{
+                    background: `radial-gradient(circle at 84% 16%, ${item.color}26, transparent 44%), #0b1120`,
+                  }}
+                >
+                  <span
+                    className="font-mono text-[10px] uppercase tracking-[0.2em]"
+                    style={{ color: item.color }}
+                  >
+                    {item.title}
+                  </span>
+                  <div>
+                    <div className="font-display text-2xl font-semibold text-ink-50">
+                      {item.title}
+                    </div>
+                    <p className="mt-2 max-w-[220px] text-xs leading-relaxed text-ink-400">
+                      {item.copy}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col items-center justify-center gap-2">
+            {verticalItems.map((item, index) => (
+              <span
+                key={item.title}
+                data-vertical-dot
+                className="block h-2 w-2 rounded-full transition-all duration-300"
+                style={{
+                  backgroundColor: index === 0 ? '#c6ff4a' : 'rgba(255,255,255,0.25)',
+                  opacity: index === 0 ? 1 : 0.3,
+                }}
+              />
+            ))}
+          </div>
+        </div>
+        <p className="mt-3 text-[10px] uppercase tracking-[0.18em] text-ink-500">
+          vertical carousel · translateY
+        </p>
+      </div>
+    </div>
+  )
+}
+
+const hoverItems = [
+  {
+    title: 'Aurora',
+    color: '#c6ff4a',
+    gradient:
+      'radial-gradient(circle at 30% 24%, rgba(198,255,74,0.65), transparent 58%), linear-gradient(160deg, #162040, #080c16)',
+  },
+  {
+    title: 'Tide',
+    color: '#22d3ee',
+    gradient:
+      'radial-gradient(circle at 70% 30%, rgba(34,211,238,0.65), transparent 58%), linear-gradient(160deg, #10243a, #080c16)',
+  },
+  {
+    title: 'Dusk',
+    color: '#8b5cf6',
+    gradient:
+      'radial-gradient(circle at 42% 74%, rgba(139,92,246,0.65), transparent 58%), linear-gradient(160deg, #1c1638, #080c16)',
+  },
+  {
+    title: 'Ember',
+    color: '#f472b6',
+    gradient:
+      'radial-gradient(circle at 74% 68%, rgba(244,114,182,0.6), transparent 58%), linear-gradient(160deg, #2a1424, #080c16)',
+  },
+]
+
+function ImageHoverFollowScene() {
+  return (
+    <div className="scene-shell">
+      <div className="relative w-full max-w-md">
+        <div className="mb-4 flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-ink-500">
+          <span>hover image</span>
+          <span className="flex items-center gap-1.5 text-blue-400">
+            <Move size={10} /> follows cursor
+          </span>
+        </div>
+        <div className="space-y-2">
+          {hoverItems.map((item, index) => (
+            <div
+              key={item.title}
+              data-hover-item
+              data-gradient={item.gradient}
+              className="flex cursor-pointer items-center justify-between rounded-2xl border border-white/8 bg-white/[0.02] px-4 py-3 transition-colors hover:border-white/15"
+            >
+              <span className="font-mono text-[10px]" style={{ color: item.color }}>
+                0{index + 1}
+              </span>
+              <span className="font-display text-lg font-semibold text-ink-100">
+                {item.title}
+              </span>
+              <span
+                className="h-1.5 w-1.5 rounded-full"
+                style={{ backgroundColor: item.color }}
+              />
+            </div>
+          ))}
+        </div>
+        <div
+          data-hover-preview
+          className="pointer-events-none absolute left-0 top-0 h-32 w-24 rounded-2xl border border-white/20 opacity-0 shadow-2xl"
+        />
+      </div>
+    </div>
+  )
+}
+
+function ImageCompareScene() {
+  return (
+    <div className="scene-shell">
+      <div className="w-full max-w-md">
+        <div className="mb-3 flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-ink-500">
+          <span>before / after</span>
+          <span className="flex items-center gap-1.5 text-orange-400">
+            <Move size={10} /> drag divider
+          </span>
+        </div>
+        <div
+          data-compare-frame
+          className="relative h-[220px] overflow-hidden rounded-3xl border border-white/10"
+        >
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'radial-gradient(circle at 30% 30%, rgba(120,130,150,0.35), transparent 60%), linear-gradient(145deg, #1a2030, #080c16)',
+            }}
+          >
+            <div className="absolute inset-0 dot-bg opacity-20" />
+            <span className="absolute left-4 top-4 font-mono text-[10px] uppercase tracking-[0.2em] text-white/50">
+              before
+            </span>
+          </div>
+          <div
+            data-compare-top
+            className="absolute inset-0"
+            style={{
+              clipPath: 'inset(0 50% 0 0)',
+              background:
+                'radial-gradient(circle at 30% 24%, rgba(198,255,74,0.65), transparent 48%), radial-gradient(circle at 74% 70%, rgba(34,211,238,0.55), transparent 50%), linear-gradient(145deg, #162040, #080c16)',
+            }}
+          >
+            <div className="absolute inset-0 dot-bg opacity-30" />
+            <span className="absolute right-4 top-4 font-mono text-[10px] uppercase tracking-[0.2em] text-accent">
+              after
+            </span>
+          </div>
+          <div
+            data-compare-handle
+            className="absolute inset-y-0 left-0 z-10 w-px bg-white/80"
+          >
+            <span className="absolute left-1/2 top-1/2 grid h-9 w-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/30 bg-ink-950/80 text-white backdrop-blur">
+              <Move size={14} />
+            </span>
+          </div>
+        </div>
+        <p className="mt-3 text-[10px] uppercase tracking-[0.18em] text-ink-500">
+          draggable · clip-path compare
+        </p>
+      </div>
+    </div>
+  )
+}
+
 export function SceneMarkup({ example }: { example: AnimationExample }) {
   let content: ReactNode
 
@@ -1303,6 +1932,42 @@ export function SceneMarkup({ example }: { example: AnimationExample }) {
       break
     case 'image-kenburns':
       content = <ImageKenBurnsScene />
+      break
+    case 'scroll-progress':
+      content = <ScrollProgressScene />
+      break
+    case 'scroll-velocity':
+      content = <ScrollVelocityScene />
+      break
+    case 'scroll-parallax-gallery':
+      content = <ScrollParallaxGalleryScene />
+      break
+    case 'text-scramble':
+      content = <TextScrambleScene />
+      break
+    case 'text-lines':
+      content = <TextLineRevealScene />
+      break
+    case 'text-gradient':
+      content = <TextGradientSweepScene />
+      break
+    case 'page-transition-slide':
+      content = <PageTransitionSlideScene />
+      break
+    case 'page-transition-zoom':
+      content = <PageTransitionZoomScene />
+      break
+    case 'carousel-coverflow':
+      content = <CarouselCoverflowScene />
+      break
+    case 'carousel-vertical':
+      content = <CarouselVerticalScene />
+      break
+    case 'image-hover-follow':
+      content = <ImageHoverFollowScene />
+      break
+    case 'image-compare':
+      content = <ImageCompareScene />
       break
     default:
       content = <BoxesScene example={example} />

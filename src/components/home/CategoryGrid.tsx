@@ -31,7 +31,7 @@ const categories = [
     icon: Layers,
     count: `${examplesByLevel.intermediate.length} examples`,
     description:
-      'ScrollTrigger reveals, pinning, horizontal scroll, text effects, carousels, SVG, drag and scrub.',
+      'ScrollTrigger reveals, pinning, horizontal scroll, velocity skew, parallax columns, text effects and carousels.',
     iconClass: 'border-cyan/20 bg-cyan/[0.06] text-cyan',
     glow: 'bg-cyan/10',
     wide: false,
@@ -42,7 +42,7 @@ const categories = [
     icon: Rocket,
     count: `${examplesByLevel.advanced.length} examples`,
     description:
-      'MotionPath, Flip, MorphSVG, page transitions, draggable carousels and reusable animation systems.',
+      'MotionPath, Flip, MorphSVG, page transitions, coverflow carousels and reusable animation systems.',
     iconClass: 'border-violet/20 bg-violet/[0.06] text-violet',
     glow: 'bg-violet/10',
     wide: false,
@@ -53,7 +53,7 @@ const categories = [
     icon: ScrollText,
     count: `${scrollExamples.length} examples`,
     description:
-      'The complete scroll toolkit: triggers, reveals, pinning, batches and scrubbed scenes.',
+      'The complete scroll toolkit: triggers, reveals, pinning, batches, velocity skew, parallax and scrubbed scenes.',
     iconClass: 'border-pink/20 bg-pink/[0.06] text-pink',
     glow: 'bg-pink/10',
     wide: false,
