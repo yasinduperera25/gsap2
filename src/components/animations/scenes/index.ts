@@ -1,6 +1,7 @@
 import * as advanced from './advanced'
 import * as beginner from './beginner'
 import * as intermediate from './intermediate'
+import * as showcase from './showcase'
 import type { SceneBuilder } from './helpers'
 
 const sceneBuilders: Record<string, SceneBuilder> = {
@@ -34,6 +35,14 @@ const sceneBuilders: Record<string, SceneBuilder> = {
   'complex-stagger': advanced.complexStagger,
   'responsive-animations': advanced.responsiveAnimations,
   'reusable-functions': advanced.reusableFunctions,
+  'text-typewriter': showcase.textTypewriter,
+  'text-marquee': showcase.textMarquee,
+  'carousel-slides': showcase.carouselSlides,
+  'carousel-draggable': showcase.carouselDrag,
+  'page-transition': showcase.pageTransition,
+  'image-tilt': showcase.imageTilt,
+  'image-gallery': showcase.imageGallery,
+  'image-kenburns': showcase.imageKenBurns,
 }
 
 export function getSceneBuilder(id: string): SceneBuilder {

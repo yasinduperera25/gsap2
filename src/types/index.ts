@@ -11,6 +11,8 @@ export type ExampleCategory =
   | 'ScrollTrigger'
   | 'Text'
   | 'Image'
+  | 'Carousel'
+  | 'Transition'
   | 'SVG'
   | 'Draggable'
   | 'Advanced'
@@ -36,6 +38,14 @@ export type SceneKind =
   | 'scroll-batch'
   | 'scroll-scrub'
   | 'scroll-driven'
+  | 'text-typewriter'
+  | 'text-marquee'
+  | 'carousel'
+  | 'carousel-drag'
+  | 'page-transition'
+  | 'image-tilt'
+  | 'image-gallery'
+  | 'image-kenburns'
 
 export type InteractionKind = 'hover' | 'click' | 'drag' | 'scroll'
 

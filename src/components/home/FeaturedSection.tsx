@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react'
 import { AnimationCard } from '@/components/animations/AnimationCard'
 import { buttonStyles } from '@/components/ui/buttonStyles'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { exampleById, featuredExampleIds } from '@/data/examples'
+import { exampleById, examples, featuredExampleIds } from '@/data/examples'
 
 export function FeaturedSection() {
   const featured = featuredExampleIds
@@ -25,7 +25,7 @@ export function FeaturedSection() {
           description="A tween, a text reveal and a motion path. Each preview is live — press play, pause or restart and watch the code come to life."
           action={
             <Link to="/beginner" className={buttonStyles('secondary', 'md')}>
-              See all 30
+              See all {examples.length}
               <ArrowRight size={14} />
             </Link>
           }

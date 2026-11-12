@@ -4,6 +4,7 @@ import { useGSAP } from '@gsap/react'
 import { ArrowRight, Play, Sparkles, Zap } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { buttonStyles } from '@/components/ui/buttonStyles'
+import { examples } from '@/data/examples'
 import { gsap } from '@/lib/gsap'
 import { HeroBackground } from './HeroBackground'
 import { HeroDemo } from './HeroDemo'
@@ -69,7 +70,7 @@ export function Hero() {
             </Badge>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-white/8 bg-white/[0.025] px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-ink-400">
               <Zap size={10} className="text-cyan" />
-              30 live examples
+              {examples.length} live examples
             </span>
           </div>
 
@@ -112,7 +113,7 @@ export function Hero() {
             className="mt-9 grid max-w-lg grid-cols-3 gap-4 border-t border-white/8 pt-6"
           >
             {[
-              { value: '30', label: 'animations' },
+              { value: String(examples.length), label: 'animations' },
               { value: '8', label: 'plugins' },
               { value: '100%', label: 'interactive' },
             ].map((stat) => (

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowUp, Code2 } from 'lucide-react'
 import { Logo } from '@/components/ui/Logo'
+import { examples } from '@/data/examples'
 
 const footerLinks = [
   { label: 'Beginner', to: '/beginner' },
@@ -19,8 +20,8 @@ export function Footer() {
           <div className="max-w-sm">
             <Logo />
             <p className="mt-4 text-xs leading-relaxed text-ink-500">
-              A hands-on animation lab for developers. Explore 30 GSAP techniques,
-              tweak the controls and learn the motion behind the interface.
+              A hands-on animation lab for developers. Explore {examples.length} GSAP
+              techniques, tweak the controls and learn the motion behind the interface.
             </p>
             <div className="mt-4 flex items-center gap-2 text-[10px] uppercase tracking-[0.18em] text-ink-600">
               <Code2 size={12} className="text-accent" />

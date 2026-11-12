@@ -10,6 +10,7 @@ import {
 } from 'lucide-react'
 import { buttonStyles } from '@/components/ui/buttonStyles'
 import { SectionHeading } from '@/components/ui/SectionHeading'
+import { examplesByLevel, scrollExamples } from '@/data/examples'
 import { cn } from '@/utils/cn'
 
 const categories = [
@@ -17,9 +18,9 @@ const categories = [
     title: 'Beginner',
     to: '/beginner',
     icon: Sparkles,
-    count: '10 examples',
+    count: `${examplesByLevel.beginner.length} examples`,
     description:
-      'Tweens, from/to, easing, stagger, timelines and the first interactive moments.',
+      'Tweens, from/to, easing, stagger, timelines, image zooms and the first interactive moments.',
     iconClass: 'border-accent/20 bg-accent/[0.06] text-accent',
     glow: 'bg-accent/10',
     wide: false,
@@ -28,9 +29,9 @@ const categories = [
     title: 'Intermediate',
     to: '/intermediate',
     icon: Layers,
-    count: '12 examples',
+    count: `${examplesByLevel.intermediate.length} examples`,
     description:
-      'ScrollTrigger reveals, pinning, horizontal scroll, SVG, drag and scrub.',
+      'ScrollTrigger reveals, pinning, horizontal scroll, text effects, carousels, SVG, drag and scrub.',
     iconClass: 'border-cyan/20 bg-cyan/[0.06] text-cyan',
     glow: 'bg-cyan/10',
     wide: false,
@@ -39,9 +40,9 @@ const categories = [
     title: 'Advanced',
     to: '/advanced',
     icon: Rocket,
-    count: '8 examples',
+    count: `${examplesByLevel.advanced.length} examples`,
     description:
-      'MotionPath, Flip, MorphSVG, responsive motion and reusable animation systems.',
+      'MotionPath, Flip, MorphSVG, page transitions, draggable carousels and reusable animation systems.',
     iconClass: 'border-violet/20 bg-violet/[0.06] text-violet',
     glow: 'bg-violet/10',
     wide: false,
@@ -50,7 +51,7 @@ const categories = [
     title: 'ScrollTrigger',
     to: '/scrolltrigger',
     icon: ScrollText,
-    count: '8 examples',
+    count: `${scrollExamples.length} examples`,
     description:
       'The complete scroll toolkit: triggers, reveals, pinning, batches and scrubbed scenes.',
     iconClass: 'border-pink/20 bg-pink/[0.06] text-pink',

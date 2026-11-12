@@ -838,6 +838,232 @@ boxes.forEach((box, index) => {
   tl.add(animateBox(box, index), index * 0.1);
 });`,
   },
+  {
+    id: 'text-typewriter',
+    order: 31,
+    title: 'Typewriter Text Animation',
+    summary: 'Reveal copy one character at a time with a blinking caret.',
+    explanation:
+      'By animating a counter object and writing its value to textContent on each update, GSAP can drive a typewriter effect. A second tween blinks the caret.',
+    tip: 'Keep the counter tween linear so characters land at an even pace.',
+    level: 'intermediate',
+    categories: ['Text'],
+    scene: 'text-typewriter',
+    accent: '#34d399',
+    code: `const state = { count: 0 };
+const text = document.querySelector(".typewriter-text");
+const full = text.textContent;
+
+gsap.to(state, {
+  count: full.length,
+  duration: 2,
+  ease: "none",
+  repeat: -1,
+  repeatDelay: 1.4,
+  onUpdate: () => {
+    text.textContent = full.slice(0, Math.round(state.count));
+  }
+});
+
+gsap.to(".typewriter-cursor", {
+  opacity: 0,
+  duration: 0.5,
+  repeat: -1,
+  yoyo: true,
+  ease: "steps(1)"
+});`,
+  },
+  {
+    id: 'text-marquee',
+    order: 32,
+    title: 'Infinite Text Marquee',
+    summary: 'Loop text endlessly with duplicated tracks and percentage transforms.',
+    explanation:
+      'Duplicate the content so the loop is seamless, then animate xPercent from 0 to -50. A reverse track adds depth and contrast.',
+    tip: 'Use xPercent rather than pixels so the marquee stays responsive.',
+    level: 'intermediate',
+    categories: ['Text'],
+    scene: 'text-marquee',
+    accent: '#22d3ee',
+    code: `const tracks = gsap.utils.toArray(".marquee-track");
+
+tracks.forEach((track, index) => {
+  const reverse = track.dataset.direction === "reverse";
+
+  gsap.fromTo(track,
+    { xPercent: reverse ? -50 : 0 },
+    {
+      xPercent: reverse ? 0 : -50,
+      duration: 14 + index * 4,
+      ease: "none",
+      repeat: -1
+    }
+  );
+});`,
+  },
+  {
+    id: 'carousel-slides',
+    order: 33,
+    title: 'Carousel Slide Loop',
+    summary: 'Build an autoplaying carousel from a single looping timeline.',
+    explanation:
+      'Translate the track by one slide width per step, then return to zero. Dot indicators update from tween callbacks.',
+    tip: 'Measure slide width at runtime so the carousel survives responsive layouts.',
+    level: 'intermediate',
+    categories: ['Carousel', 'Timeline'],
+    scene: 'carousel',
+    accent: '#c6ff4a',
+    code: `const track = document.querySelector(".carousel-track");
+const width = () => track.clientWidth;
+const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.6 });
+
+for (let i = 1; i < slides.length; i++) {
+  tl.to(track, {
+    x: () => -i * width(),
+    duration: 0.75,
+    ease: "power3.inOut"
+  });
+}
+
+tl.to({}, { duration: 1.1 })
+  .to(track, { x: 0, duration: 0.75, ease: "power3.inOut" });`,
+  },
+  {
+    id: 'carousel-draggable',
+    order: 34,
+    title: 'Draggable Carousel',
+    summary: 'Give a carousel momentum, bounds and snapping with Draggable.',
+    explanation:
+      'Draggable with inertia lets visitors flick through slides. A snap function rounds the release to the nearest slide offset.',
+    tip: 'Always derive snap points from real slide offsets, not fixed math.',
+    level: 'advanced',
+    categories: ['Carousel', 'Draggable', 'Interaction'],
+    scene: 'carousel-drag',
+    accent: '#f472b6',
+    interaction: 'drag',
+    code: `const viewport = document.querySelector(".carousel-window");
+const track = document.querySelector(".carousel-track");
+const slides = gsap.utils.toArray(".carousel-slide");
+
+const offsets = slides.map((slide) => -slide.offsetLeft);
+const minX = viewport.clientWidth - track.scrollWidth;
+
+Draggable.create(track, {
+  type: "x",
+  bounds: { minX, maxX: 0 },
+  inertia: true,
+  edgeResistance: 0.7,
+  snap: {
+    x: (value) => nearestOffset(offsets, value, minX)
+  }
+});`,
+  },
+  {
+    id: 'page-transition',
+    order: 35,
+    title: 'Page Transition Wipe',
+    summary: 'Mask a route change with staggered curtain strips.',
+    explanation:
+      'Cover the viewport with strips, swap the page underneath, then uncover. Staggering each strip turns a hard swap into a sequence.',
+    tip: 'Keep transition overlays pointer-events-none so they never block clicks.',
+    level: 'advanced',
+    categories: ['Transition', 'Timeline'],
+    scene: 'page-transition',
+    accent: '#8b5cf6',
+    code: `const tl = gsap.timeline({ repeat: -1 });
+
+tl.to(".transition-strip", {
+  yPercent: 0,
+  duration: 0.5,
+  stagger: 0.06,
+  ease: "power4.inOut"
+})
+.set(".page-a", { yPercent: -100 })
+.set(".page-b", { yPercent: 0 })
+.to(".transition-strip", {
+  yPercent: -100,
+  duration: 0.5,
+  stagger: 0.06,
+  ease: "power4.inOut"
+});`,
+  },
+  {
+    id: 'image-tilt',
+    order: 36,
+    title: '3D Image Tilt',
+    summary: 'Tilt an image toward the cursor with quickTo setters.',
+    explanation:
+      'quickTo creates reusable high-performance setters. Map pointer position to rotationX and rotationY for a tactile 3D card.',
+    tip: 'Cap the rotation range and use perspective on the parent for a believable result.',
+    level: 'intermediate',
+    categories: ['Image', 'Interaction'],
+    scene: 'image-tilt',
+    accent: '#60a5fa',
+    interaction: 'hover',
+    code: `const card = document.querySelector(".tilt-card");
+const rotateX = gsap.quickTo(card, "rotationX", { duration: 0.5 });
+const rotateY = gsap.quickTo(card, "rotationY", { duration: 0.5 });
+
+card.addEventListener("mousemove", (event) => {
+  const rect = card.getBoundingClientRect();
+  const x = (event.clientX - rect.left) / rect.width - 0.5;
+  const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+  rotateY(x * 22);
+  rotateX(-y * 22);
+});`,
+  },
+  {
+    id: 'image-gallery',
+    order: 37,
+    title: 'Stacked Image Gallery',
+    summary: 'Fan a stack of images outward with a staggered reveal.',
+    explanation:
+      'A single staggered tween can fan stacked cards into a gallery. yoyo brings them back together for a seamless loop.',
+    tip: 'Animate from the center so the fan stays balanced on any screen width.',
+    level: 'advanced',
+    categories: ['Image', 'Stagger'],
+    scene: 'image-gallery',
+    accent: '#fbbf24',
+    code: `const cards = gsap.utils.toArray(".gallery-card");
+const total = cards.length;
+
+gsap.to(cards, {
+  x: (i) => (i - (total - 1) / 2) * 54,
+  y: (i) => Math.abs(i - (total - 1) / 2) * 14,
+  rotation: (i) => (i - (total - 1) / 2) * 10,
+  duration: 0.9,
+  stagger: 0.05,
+  ease: "power3.out",
+  repeat: -1,
+  yoyo: true
+});`,
+  },
+  {
+    id: 'image-kenburns',
+    order: 38,
+    title: 'Ken Burns Image Zoom',
+    summary: 'Add cinematic life to a still image with a slow zoom and pan.',
+    explanation:
+      'A long, eased scale and translate can make a static image feel alive. Very slow timing keeps the effect subtle.',
+    tip: 'Keep Ken Burns movement under 20% scale or it becomes distracting.',
+    level: 'beginner',
+    categories: ['Image', 'Basics'],
+    scene: 'image-kenburns',
+    accent: '#f97316',
+    code: `gsap.fromTo(".kenburns-panel",
+  { scale: 1.02, xPercent: 0, yPercent: 0 },
+  {
+    scale: 1.22,
+    xPercent: -3,
+    yPercent: -2,
+    duration: 6,
+    ease: "sine.inOut",
+    repeat: -1,
+    yoyo: true
+  }
+);`,
+  },
 ]
 
 export const exampleById = new Map(examples.map((example) => [example.id, example]))

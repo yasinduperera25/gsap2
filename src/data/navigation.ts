@@ -1,4 +1,5 @@
 import type { ComponentType } from 'react'
+import { examplesByLevel, scrollExamples } from '@/data/examples'
 import {
   LayoutDashboard,
   Sparkles,
@@ -41,19 +42,19 @@ export const navSections: NavSection[] = [
         label: 'Beginner Animations',
         to: '/beginner',
         icon: Sparkles,
-        badge: '10',
+        badge: String(examplesByLevel.beginner.length),
       },
       {
         label: 'Intermediate Animations',
         to: '/intermediate',
         icon: Layers,
-        badge: '12',
+        badge: String(examplesByLevel.intermediate.length),
       },
       {
         label: 'Advanced Animations',
         to: '/advanced',
         icon: Rocket,
-        badge: '8',
+        badge: String(examplesByLevel.advanced.length),
       },
     ],
   },
@@ -64,7 +65,7 @@ export const navSections: NavSection[] = [
         label: 'ScrollTrigger',
         to: '/scrolltrigger',
         icon: ScrollText,
-        badge: '8',
+        badge: String(scrollExamples.length),
       },
       {
         label: 'Interactive Playground',

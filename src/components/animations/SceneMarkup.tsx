@@ -1,5 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react'
 import {
+  ChevronLeft,
+  ChevronRight,
   GripVertical,
   Hand,
   Layers,
@@ -764,6 +766,459 @@ function ScrollDrivenScene() {
   )
 }
 
+function TextTypewriterScene() {
+  return (
+    <div className="scene-shell">
+      <div className="w-full max-w-xl">
+        <div className="rounded-2xl border border-white/8 bg-gradient-to-br from-ink-750 to-ink-950 p-5 shadow-2xl">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <span className="h-2.5 w-2.5 rounded-full bg-pink/70" />
+              <span className="h-2.5 w-2.5 rounded-full bg-amber-300/70" />
+              <span className="h-2.5 w-2.5 rounded-full bg-accent/70" />
+            </div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-ink-500">
+              typewriter.ts
+            </span>
+          </div>
+          <div className="mt-6 min-h-[4.5rem] font-mono text-lg leading-relaxed text-ink-100 sm:text-xl">
+            <span className="text-accent">$ </span>
+            <span data-typewriter-text>Motion writes itself.</span>
+            <span
+              data-typewriter-cursor
+              className="ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[0.2em] rounded-full bg-accent align-middle"
+            />
+          </div>
+          <p data-typewriter-sub className="mt-3 text-xs leading-relaxed text-ink-400">
+            A counter drives textContent frame by frame, while a separate tween
+            blinks the caret.
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const marqueeWords = [
+  'Kinetic type',
+  'SplitText',
+  'Editorial',
+  'Motion',
+  'Rhythm',
+  'Stagger',
+]
+
+function TextMarqueeScene() {
+  const rows = [
+    { direction: 'normal', accent: 'text-accent', dot: 'bg-accent' },
+    { direction: 'reverse', accent: 'text-cyan', dot: 'bg-cyan' },
+  ]
+
+  return (
+    <div className="scene-shell overflow-hidden">
+      <div className="w-full max-w-xl space-y-3">
+        {rows.map((row) => (
+          <div
+            key={row.direction}
+            className="overflow-hidden rounded-2xl border border-white/8 bg-white/[0.02] py-3"
+          >
+            <div
+              data-marquee-track
+              data-direction={row.direction}
+              className="flex w-max items-center"
+            >
+              {[...marqueeWords, ...marqueeWords].map((word, index) => (
+                <span
+                  key={`${row.direction}-${word}-${index}`}
+                  className={`flex items-center gap-4 pr-4 text-sm font-semibold uppercase tracking-[0.2em] ${row.accent}`}
+                >
+                  {word}
+                  <span className={`h-1.5 w-1.5 rounded-full ${row.dot}`} />
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+        <div className="text-center text-[10px] uppercase tracking-[0.2em] text-ink-500">
+          duplicated tracks · seamless loop
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const carouselItems = [
+  {
+    kicker: '01 / product',
+    title: 'Momentum',
+    copy: 'Slides advance on a looping timeline with a single x transform.',
+    accent: '#c6ff4a',
+  },
+  {
+    kicker: '02 / story',
+    title: 'Sequence',
+    copy: 'Each step overlaps the last for a continuous sense of motion.',
+    accent: '#22d3ee',
+  },
+  {
+    kicker: '03 / detail',
+    title: 'Return',
+    copy: 'The final tween resets the track so the loop never breaks.',
+    accent: '#8b5cf6',
+  },
+]
+
+function CarouselScene() {
+  return (
+    <div className="scene-shell">
+      <div className="w-full max-w-md">
+        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-ink-900 shadow-2xl">
+          <div data-carousel-track className="flex">
+            {carouselItems.map((item) => (
+              <div
+                key={item.title}
+                data-carousel-slide
+                className="relative flex h-[210px] w-full shrink-0 flex-col justify-between p-5"
+                style={{
+                  background: `radial-gradient(circle at 82% 12%, ${item.accent}26, transparent 42%), #0b1120`,
+                }}
+              >
+                <div className="flex items-center justify-between">
+                  <span
+                    className="font-mono text-[10px] uppercase tracking-[0.2em]"
+                    style={{ color: item.accent }}
+                  >
+                    {item.kicker}
+                  </span>
+                  <span
+                    className="h-1.5 w-1.5 rounded-full"
+                    style={{ backgroundColor: item.accent }}
+                  />
+                </div>
+                <div>
+                  <div className="font-display text-3xl font-semibold text-ink-50">
+                    {item.title}
+                  </div>
+                  <p className="mt-2 max-w-[230px] text-xs leading-relaxed text-ink-400">
+                    {item.copy}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="mt-4 flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            {carouselItems.map((item, index) => (
+              <span
+                key={item.title}
+                data-carousel-dot
+                className="h-2 rounded-full transition-all duration-300"
+                style={{
+                  width: index === 0 ? 22 : 8,
+                  opacity: index === 0 ? 1 : 0.35,
+                  backgroundColor: index === 0 ? '#c6ff4a' : 'rgba(255,255,255,0.25)',
+                }}
+              />
+            ))}
+          </div>
+          <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.18em] text-ink-500">
+            <ChevronLeft size={12} />
+            autoplay
+            <ChevronRight size={12} />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const dragCarouselItems = [
+  { label: 'One', color: '#c6ff4a' },
+  { label: 'Two', color: '#22d3ee' },
+  { label: 'Three', color: '#8b5cf6' },
+  { label: 'Four', color: '#f472b6' },
+  { label: 'Five', color: '#fbbf24' },
+  { label: 'Six', color: '#34d399' },
+]
+
+function CarouselDragScene() {
+  return (
+    <div className="scene-shell">
+      <div className="w-full max-w-md">
+        <div className="mb-3 flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-ink-500">
+          <span>drag carousel</span>
+          <span className="flex items-center gap-1.5 text-pink">
+            <Hand size={10} /> inertia + snap
+          </span>
+        </div>
+        <div
+          data-carousel-window
+          className="overflow-hidden rounded-3xl border border-white/10 bg-white/[0.02]"
+        >
+          <div
+            data-carousel-drag-track
+            className="flex w-max cursor-grab gap-3 p-3 active:cursor-grabbing"
+          >
+            {dragCarouselItems.map((card, index) => (
+              <div
+                key={card.label}
+                data-carousel-drag-slide
+                className="flex h-[168px] w-[136px] shrink-0 touch-none flex-col justify-between rounded-2xl border border-white/8 p-3"
+                style={{
+                  background: `linear-gradient(160deg, ${card.color}22, #0c111f)`,
+                }}
+              >
+                <span className="font-mono text-[10px]" style={{ color: card.color }}>
+                  0{index + 1}
+                </span>
+                <div>
+                  <div className="font-display text-lg font-semibold text-ink-50">
+                    {card.label}
+                  </div>
+                  <div
+                    className="mt-2 h-1 w-10 rounded-full"
+                    style={{ backgroundColor: card.color }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <p className="mt-3 text-[10px] uppercase tracking-[0.18em] text-ink-500">
+          drag sideways · releases snap
+        </p>
+      </div>
+    </div>
+  )
+}
+
+const transitionPages = [
+  {
+    label: '/overview',
+    title: 'Overview',
+    copy: 'The current route slides out as the next one rises into place.',
+    accent: '#c6ff4a',
+  },
+  {
+    label: '/gallery',
+    title: 'Gallery',
+    copy: 'Staggered strips mask the swap for a cinematic hand-off.',
+    accent: '#22d3ee',
+  },
+]
+
+function PageTransitionScene() {
+  return (
+    <div className="scene-shell">
+      <div className="w-full max-w-md">
+        <div className="relative h-[210px] overflow-hidden rounded-3xl border border-white/10 bg-ink-900">
+          {transitionPages.map((page, index) => (
+            <div
+              key={page.label}
+              data-transition-page
+              className="absolute inset-0 flex flex-col justify-between p-5"
+              style={{
+                zIndex: index === 0 ? 10 : 9,
+                background: `radial-gradient(circle at 82% 12%, ${page.accent}26, transparent 42%), #0b1120`,
+                transform: index === 0 ? undefined : 'translateY(100%)',
+              }}
+            >
+              <div className="flex items-center justify-between">
+                <span
+                  className="font-mono text-[10px] uppercase tracking-[0.2em]"
+                  style={{ color: page.accent }}
+                >
+                  {page.label}
+                </span>
+                <span
+                  className="h-1.5 w-1.5 rounded-full"
+                  style={{ backgroundColor: page.accent }}
+                />
+              </div>
+              <div>
+                <div className="font-display text-3xl font-semibold text-ink-50">
+                  {page.title}
+                </div>
+                <p className="mt-2 max-w-[240px] text-xs leading-relaxed text-ink-400">
+                  {page.copy}
+                </p>
+              </div>
+            </div>
+          ))}
+          <div className="pointer-events-none absolute inset-0 z-20 grid grid-cols-3">
+            {[
+              'linear-gradient(180deg, #c6ff4a, #8fbf1f)',
+              'linear-gradient(180deg, #22d3ee, #0e7490)',
+              'linear-gradient(180deg, #8b5cf6, #5b21b6)',
+            ].map((background) => (
+              <span
+                key={background}
+                data-transition-strip
+                className="block h-full w-full"
+                style={{ background, transform: 'translateY(100%)' }}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="mt-4 flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-ink-500">
+          <span>curtain wipe</span>
+          <span>staggered strips</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ImageTiltScene() {
+  return (
+    <div className="scene-shell" style={{ perspective: 900 }}>
+      <div className="w-full max-w-[320px]">
+        <div
+          data-tilt-card
+          className="relative h-[230px] w-full overflow-hidden rounded-3xl border border-white/10"
+          style={{
+            transformStyle: 'preserve-3d',
+            background:
+              'radial-gradient(circle at 24% 18%, rgba(96,165,250,0.65), transparent 38%), radial-gradient(circle at 78% 72%, rgba(34,211,238,0.45), transparent 42%), linear-gradient(145deg, #162040, #080c16)',
+          }}
+        >
+          <div className="absolute inset-0 dot-bg opacity-30" />
+          <div
+            data-tilt-shine
+            className="pointer-events-none absolute -inset-24 opacity-40"
+            style={{
+              background:
+                'radial-gradient(circle at center, rgba(255,255,255,0.35), transparent 55%)',
+            }}
+          />
+          <div className="absolute left-5 top-5 flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-cyan" />
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/70">
+              tilt / 3d
+            </span>
+          </div>
+          <div className="absolute bottom-5 left-5 right-5">
+            <div className="font-display text-2xl font-semibold leading-none text-white">
+              Track the
+              <br />
+              cursor.
+            </div>
+            <div className="mt-2 text-[10px] uppercase tracking-[0.22em] text-white/50">
+              pointer-driven rotateX / rotateY
+            </div>
+          </div>
+        </div>
+        <div className="mt-4 text-center text-[10px] uppercase tracking-[0.18em] text-ink-500">
+          hover inside the preview
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const galleryImages = [
+  {
+    label: 'Aurora',
+    color: '#c6ff4a',
+    gradient:
+      'radial-gradient(circle at 28% 20%, rgba(198,255,74,0.6), transparent 58%), linear-gradient(160deg, #162040, #080c16)',
+  },
+  {
+    label: 'Tide',
+    color: '#22d3ee',
+    gradient:
+      'radial-gradient(circle at 72% 26%, rgba(34,211,238,0.6), transparent 58%), linear-gradient(160deg, #10243a, #080c16)',
+  },
+  {
+    label: 'Dusk',
+    color: '#8b5cf6',
+    gradient:
+      'radial-gradient(circle at 40% 76%, rgba(139,92,246,0.6), transparent 58%), linear-gradient(160deg, #1c1638, #080c16)',
+  },
+  {
+    label: 'Ember',
+    color: '#f472b6',
+    gradient:
+      'radial-gradient(circle at 76% 70%, rgba(244,114,182,0.55), transparent 58%), linear-gradient(160deg, #2a1424, #080c16)',
+  },
+]
+
+function ImageGalleryScene() {
+  return (
+    <div className="scene-shell">
+      <div className="flex w-full max-w-[320px] flex-col items-center gap-4">
+        <div className="relative h-[210px] w-full">
+          {galleryImages.map((image, index) => (
+            <div
+              key={image.label}
+              data-gallery-card
+              className="absolute inset-0 overflow-hidden rounded-3xl border border-white/10"
+              style={{
+                zIndex: galleryImages.length - index,
+                background: image.gradient,
+              }}
+            >
+              <div className="absolute inset-0 dot-bg opacity-25" />
+              <div
+                className="absolute left-4 top-4 font-mono text-[10px] uppercase tracking-[0.2em]"
+                style={{ color: image.color }}
+              >
+                0{index + 1} / {image.label}
+              </div>
+              <div className="absolute bottom-4 left-4 font-display text-xl font-semibold text-white">
+                {image.label}
+              </div>
+            </div>
+          ))}
+        </div>
+        <span className="text-[10px] uppercase tracking-[0.18em] text-ink-500">
+          stacked gallery · fanned by stagger
+        </span>
+      </div>
+    </div>
+  )
+}
+
+function ImageKenBurnsScene() {
+  return (
+    <div className="scene-shell">
+      <div className="w-full max-w-[320px]">
+        <div className="relative h-[230px] w-full overflow-hidden rounded-3xl border border-white/10">
+          <div
+            data-kenburns-panel
+            className="absolute -inset-6"
+            style={{
+              background:
+                'radial-gradient(circle at 26% 20%, rgba(249,115,22,0.7), transparent 42%), radial-gradient(circle at 74% 76%, rgba(198,255,74,0.5), transparent 44%), linear-gradient(145deg, #241a10, #080c16)',
+            }}
+          >
+            <div className="absolute inset-0 dot-bg opacity-30" />
+            <div className="absolute left-1/4 top-1/4 h-24 w-24 rounded-full border border-accent/30 bg-accent/10" />
+            <div className="absolute bottom-10 right-8 h-32 w-32 rounded-3xl border border-cyan/20 bg-cyan/10" />
+          </div>
+          <div className="absolute left-5 top-5 flex items-center gap-2">
+            <Sparkles size={12} className="text-accent" />
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/70">
+              ken burns
+            </span>
+          </div>
+          <div className="absolute bottom-5 left-5">
+            <div className="font-display text-2xl font-semibold leading-none text-white">
+              Slow
+              <br />
+              zoom.
+            </div>
+            <div className="mt-2 text-[10px] uppercase tracking-[0.22em] text-white/50">
+              continuous scale + pan
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function SceneMarkup({ example }: { example: AnimationExample }) {
   let content: ReactNode
 
@@ -824,6 +1279,30 @@ export function SceneMarkup({ example }: { example: AnimationExample }) {
       break
     case 'scroll-driven':
       content = <ScrollDrivenScene />
+      break
+    case 'text-typewriter':
+      content = <TextTypewriterScene />
+      break
+    case 'text-marquee':
+      content = <TextMarqueeScene />
+      break
+    case 'carousel':
+      content = <CarouselScene />
+      break
+    case 'carousel-drag':
+      content = <CarouselDragScene />
+      break
+    case 'page-transition':
+      content = <PageTransitionScene />
+      break
+    case 'image-tilt':
+      content = <ImageTiltScene />
+      break
+    case 'image-gallery':
+      content = <ImageGalleryScene />
+      break
+    case 'image-kenburns':
+      content = <ImageKenBurnsScene />
       break
     default:
       content = <BoxesScene example={example} />

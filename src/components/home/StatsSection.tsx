@@ -1,12 +1,13 @@
 import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import { Gauge, Layers, MousePointer2, Zap } from 'lucide-react'
+import { examples } from '@/data/examples'
 import { gsap } from '@/lib/gsap'
 
 const stats = [
   {
     icon: Layers,
-    value: 30,
+    value: examples.length,
     suffix: '+',
     label: 'Animation examples',
     detail: 'From first tween to advanced scroll scenes.',

@@ -72,7 +72,7 @@ export function ExampleDetailPage() {
               </Badge>
             ))}
             <span className="font-mono text-[10px] text-ink-600">
-              {padIndex(example.order)} / 30
+              {padIndex(example.order)} / {examples.length}
             </span>
           </div>
           <h1 className="text-3xl font-semibold leading-tight text-ink-50 sm:text-4xl lg:text-5xl">

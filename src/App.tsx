@@ -18,7 +18,7 @@ function App() {
             <ExamplesPage
               eyebrow="Beginner track"
               title="Learn the core, one tween at a time."
-              description="Ten focused examples covering the building blocks of GSAP: from a single property tween to nested timelines and staggered grids."
+              description="Eleven focused examples covering the building blocks of GSAP: from a single property tween to nested timelines, staggered grids and cinematic image zooms."
               level="beginner"
             />
           }
@@ -29,7 +29,7 @@ function App() {
             <ExamplesPage
               eyebrow="Intermediate track"
               title="Connect motion to interaction."
-              description="Twelve examples that add scroll, drag, SVG and sequencing to the core API. This is where animation starts to feel like part of the interface."
+              description="Sixteen examples that add scroll, drag, SVG, text effects and carousels to the core API. This is where animation starts to feel like part of the interface."
               level="intermediate"
             />
           }
@@ -40,7 +40,7 @@ function App() {
             <ExamplesPage
               eyebrow="Advanced track"
               title="Build systems, not one-off effects."
-              description="Eight examples covering motion paths, layout transitions, shape morphing, responsive timelines and reusable animation architecture."
+              description="Eleven examples covering motion paths, page transitions, draggable carousels, shape morphing, responsive timelines and reusable animation architecture."
               level="advanced"
             />
           }

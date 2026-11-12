@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import { BookOpen, ChevronRight, Menu, SlidersHorizontal } from 'lucide-react'
 import { buttonStyles } from '@/components/ui/buttonStyles'
-import { exampleById } from '@/data/examples'
+import { exampleById, examples } from '@/data/examples'
 
 const pageTitles: Record<string, string> = {
   '/': 'Overview',
@@ -53,7 +53,7 @@ export function Topbar({ onMenu }: TopbarProps) {
         <div className="flex items-center gap-2">
           <span className="hidden items-center gap-2 rounded-full border border-white/8 bg-white/[0.025] px-3 py-1.5 text-[10px] font-medium text-ink-400 md:inline-flex">
             <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_8px_#c6ff4a]" />
-            30 examples
+            {examples.length} examples
           </span>
 
           <a

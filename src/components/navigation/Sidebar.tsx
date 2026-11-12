@@ -90,7 +90,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           <SearchField
             value={query}
             onChange={setQuery}
-            placeholder="Search 30 examples..."
+            placeholder={`Search ${examples.length} examples...`}
             inputRef={inputRef}
             shortcut="/"
           />
